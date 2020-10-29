@@ -1,3 +1,4 @@
+//linking files/defining variables
 const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
@@ -10,11 +11,9 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
-
-// Write code to use inquirer to gather information about the development team members,
-// and to create objects for each team member (using the correct classes as blueprints!)
 const teamMembers = []
 
+//starting the function to run the program and asking for a selection that defines employee type
 function startProgram() {
     function newTeam(){
         inquirer.prompt([
@@ -46,6 +45,8 @@ function startProgram() {
             })
     };
 
+
+//defining manager questions with inquirer
     function createManager() {
         inquirer.prompt([
             {
@@ -102,6 +103,7 @@ function startProgram() {
             newTeam();
     })};
 
+//defining intern questions with inquirer
     function createIntern() {
         inquirer.prompt([
             {
@@ -157,7 +159,9 @@ function startProgram() {
             teamMembers.push(intern)
             newTeam();
     })};
- 
+
+
+ //defining engineer employee questions with inquirer
     function createEngineer() {
         inquirer.prompt([
             {
@@ -212,12 +216,11 @@ function startProgram() {
             const engineer = new Engineer(answers.engineerName, answers.engineerId, answers.engineerEmail, answers.engineerGithub)
             teamMembers.push(engineer)
             newTeam();
-            // run a function here that creates the entire "team" prompting you to create another employee
         })
     }
 
+//function to create the team via the output directory
     function buildTeam() {
-        // Create the output directory if the output path doesn't exist
         if (!fs.existsSync(OUTPUT_DIR)) {
           fs.mkdirSync(OUTPUT_DIR)
         }
