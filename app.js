@@ -11,7 +11,7 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
-const teamMembers = []
+const allEmployees = []
 
 //starting the function to run the program and asking for a selection that defines employee type
 function startProgram() {
@@ -19,7 +19,7 @@ function startProgram() {
         inquirer.prompt([
             {
             type: "list",
-            name: "employeeType",
+            name: "employeeRole",
             message: "What kind of employee would you like to add?",
             choices: [
                 "manager",
@@ -29,36 +29,36 @@ function startProgram() {
             ]
             }
         ]).then(answers =>{
-        switch(answers.employeeType) {
+        switch(answers.employeeRole) {
             case "manager":
-                createManager();
+                newManager();
             break
             case "engineer":
-                createEngineer();
+                newEngineer();
             break
             case "intern":
-                createIntern();
+                newIntern();
             break
             default:
-                buildTeam();
+                createTeam();
         }
             })
     };
 
 
 //defining manager questions with inquirer
-    function createManager() {
+    function newManager() {
         inquirer.prompt([
             {
                 type: "input",
                 name: "managerName",
-                message: "What is your manager's name",
+                message: "What is your manager's name?",
                 validate: answer => {
                     if(answer !== "") {
                         return true
                     }
 
-                    return "Please enter a valid name."
+                    return "Please enter a value for name."
                 }
             },
             {
@@ -70,7 +70,7 @@ function startProgram() {
                         return true
                     }
 
-                    return "Please enter a valid ID."
+                    return "Please enter a value for ID."
                 }
             },
             {
@@ -82,7 +82,7 @@ function startProgram() {
                         return true
                     }
 
-                    return "Please enter a valid email."
+                    return "Please enter a value for email."
                 }
             },
             {
@@ -94,28 +94,28 @@ function startProgram() {
                         return true
                     }
 
-                    return "Please enter a valid office number."
+                    return "Please enter a value for office number."
                 }
             }
         ]).then(answers => {
             const manager = new Manager(answers.managerName, answers.managerId, answers.managerEmail, answers.managerOfficeNumber)
-            teamMembers.push(manager)
+            allEmployees.push(manager)
             newTeam();
     })};
 
 //defining intern questions with inquirer
-    function createIntern() {
+    function newIntern() {
         inquirer.prompt([
             {
                 type: "input",
                 name: "internName",
-                message: "What is your intern's name",
+                message: "What is your intern's name?",
                 validate: answer => {
                     if(answer !== "") {
                         return true
                     }
 
-                    return "Please enter a valid name."
+                    return "Please enter a value for name."
                 }
             },
             {
@@ -127,7 +127,7 @@ function startProgram() {
                         return true
                     }
 
-                    return "Please enter a valid ID."
+                    return "Please enter a value for ID."
                 }
             },
             {
@@ -139,7 +139,7 @@ function startProgram() {
                         return true
                     }
 
-                    return "Please enter a valid email."
+                    return "Please enter a value for email."
                 }
             },
             {
@@ -151,29 +151,29 @@ function startProgram() {
                         return true
                     }
 
-                    return "Please enter a valid school."
+                    return "Please enter a value for school."
                 }
             }
         ]).then(answers => {
             const intern = new Intern(answers.internName, answers.internId, answers.internEmail, answers.internSchool)
-            teamMembers.push(intern)
+            allEmployees.push(intern)
             newTeam();
     })};
 
 
  //defining engineer employee questions with inquirer
-    function createEngineer() {
+    function newEngineer() {
         inquirer.prompt([
             {
                 type: "input",
                 name: "engineerName",
-                message: "What is your engineer's name",
+                message: "What is your engineer's name?",
                 validate: answer => {
                     if(answer !== "") {
                         return true
                     }
 
-                    return "Please enter a valid name."
+                    return "Please enter a value for name."
                 }
             },
             {
@@ -185,7 +185,7 @@ function startProgram() {
                         return true
                     }
 
-                    return "Please enter a valid ID."
+                    return "Please enter a value for ID."
                 }
             },
             {
@@ -197,7 +197,7 @@ function startProgram() {
                         return true
                     }
 
-                    return "Please enter a valid email."
+                    return "Please enter a value for email."
                 }
             },
             {
@@ -209,22 +209,22 @@ function startProgram() {
                         return true
                     }
 
-                    return "Please enter a valid Github."
+                    return "Please enter a value for Github."
                 }
             }
         ]).then(answers => {
             const engineer = new Engineer(answers.engineerName, answers.engineerId, answers.engineerEmail, answers.engineerGithub)
-            teamMembers.push(engineer)
+            allEmployees.push(engineer)
             newTeam();
         })
     }
 
 //function to create the team via the output directory
-    function buildTeam() {
+    function createTeam() {
         if (!fs.existsSync(OUTPUT_DIR)) {
           fs.mkdirSync(OUTPUT_DIR)
         }
-        fs.writeFileSync(outputPath, render(teamMembers), "utf-8");
+        fs.writeFileSync(outputPath, render(allEmployees), "utf-8");
       }
 
 newTeam();    
